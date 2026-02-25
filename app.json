@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "FAInancier",
+    "slug": "fainancier",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "scheme": "fainancier",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F8F9FB"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ro.fainancier.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#F8F9FB"
+      },
+      "package": "ro.fainancier.app",
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png",
+      "output": "static"
+    },
+    "plugins": ["expo-router"]
+  }
+}
