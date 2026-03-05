@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Animated,
+  LayoutAnimation,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAppStore } from '../src/store/useAppStore';
@@ -106,7 +107,10 @@ export default function ResultsScreen() {
                       styles.toggleBtn,
                       refinanceFilter === 'beneficial' && styles.toggleBtnActive,
                     ]}
-                    onPress={() => setRefinanceFilter('beneficial')}
+                    onPress={() => {
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                      setRefinanceFilter('beneficial');
+                    }}
                   >
                     <Text style={[
                       styles.toggleBtnText,
@@ -120,7 +124,10 @@ export default function ResultsScreen() {
                       styles.toggleBtn,
                       refinanceFilter === 'all' && styles.toggleBtnActive,
                     ]}
-                    onPress={() => setRefinanceFilter('all')}
+                    onPress={() => {
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                      setRefinanceFilter('all');
+                    }}
                   >
                     <Text style={[
                       styles.toggleBtnText,
@@ -159,7 +166,10 @@ export default function ResultsScreen() {
                 <TouchableOpacity
                   key={f.key}
                   style={[styles.filterTab, filter === f.key && styles.filterTabActive]}
-                  onPress={() => setFilter(f.key)}
+                  onPress={() => {
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                    setFilter(f.key);
+                  }}
                 >
                   <Text
                     style={[
@@ -182,7 +192,10 @@ export default function ResultsScreen() {
                     : 'Nicio ofertă pentru filtrul selectat.'}
                 </Text>
                 {isRefinance && refinanceFilter === 'beneficial' && (
-                  <TouchableOpacity onPress={() => setRefinanceFilter('all')}>
+                  <TouchableOpacity onPress={() => {
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                    setRefinanceFilter('all');
+                  }}>
                     <Text style={styles.noResultsLink}>Afișează toate ofertele →</Text>
                   </TouchableOpacity>
                 )}

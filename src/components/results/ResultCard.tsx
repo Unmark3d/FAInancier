@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Animated,
+  LayoutAnimation,
 } from 'react-native';
 import { CalculationResult } from '../../engine/types';
 import { Card } from '../ui/Card';
@@ -226,7 +227,10 @@ export function ResultCard({
 
           {/* Expandable details */}
           <TouchableOpacity
-            onPress={() => setExpanded(!expanded)}
+            onPress={() => {
+              LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+              setExpanded(!expanded);
+            }}
             style={styles.expandBtn}
             hitSlop={{ top: 8, bottom: 8, left: 0, right: 0 }}
           >

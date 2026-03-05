@@ -6,6 +6,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  LayoutAnimation,
 } from 'react-native';
 import { useAppStore } from '../src/store/useAppStore';
 import { Card } from '../src/components/ui/Card';
@@ -67,7 +68,10 @@ export default function AmortizationScreen() {
           <TouchableOpacity
             key={m.key}
             style={[styles.tab, viewMode === m.key && styles.tabActive]}
-            onPress={() => setViewMode(m.key)}
+            onPress={() => {
+              LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+              setViewMode(m.key);
+            }}
           >
             <Text style={[styles.tabText, viewMode === m.key && styles.tabTextActive]}>
               {m.label}
