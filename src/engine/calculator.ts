@@ -660,8 +660,25 @@ export function runScenarioC(
         recommendationScore,
         monthlySavings,
         totalSavings,
+        currentMonthlyPayment: input.currentMonthlyPayment,
       };
     });
 
-  return results.sort((a, b) => b.recommendationScore - a.recommendationScore);
+  return results.sort((a, b) => {
+    const aEligible = a.eligibility.isEligible;
+    const bEligible = b.eligibility.isEligible;
+    const aPositive = aEligible && a.monthlySavings > 0;
+    const bPositive = bEligible && b.monthlySavings > 0;
+
+    // Tier 1: eligible + monthlySavings > 0  (sorted by totalSavings desc)
+    // Tier 2: eligible + monthlySavings <= 0
+    // Tier 3: ineligible
+    if (aPositive && bPositive) return b.totalSavings - a.totalSavings;
+    if (aPositive) return -1;
+    if (bPositive) return 1;
+    if (aEligible && bEligible) return 0;
+    if (aEligible) return -1;
+    if (bEligible) return 1;
+    return 0;
+  });
 }

@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
+  Animated,
   TouchableOpacity,
   Text,
   StyleSheet,
   ViewStyle,
   TextStyle,
   ActivityIndicator,
+  StyleProp,
 } from 'react-native';
 import { Colors, Typography, Radius, Spacing } from '../../theme';
 
@@ -19,7 +21,7 @@ interface ButtonProps {
   size?: Size;
   disabled?: boolean;
   loading?: boolean;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   textStyle?: TextStyle;
   fullWidth?: boolean;
 }
@@ -35,6 +37,16 @@ export function Button({
   textStyle,
   fullWidth = false,
 }: ButtonProps) {
+  const scale = useRef(new Animated.Value(1)).current;
+
+  const onPressIn = () => {
+    Animated.spring(scale, { toValue: 0.96, useNativeDriver: true, speed: 60, bounciness: 2 }).start();
+  };
+
+  const onPressOut = () => {
+    Animated.spring(scale, { toValue: 1, useNativeDriver: true, speed: 40, bounciness: 8 }).start();
+  };
+
   const containerStyle = [
     styles.base,
     styles[variant],
@@ -44,24 +56,33 @@ export function Button({
     style,
   ];
 
-  const labelStyle = [styles.label, styles[`${variant}Label` as keyof typeof styles], styles[`${size}Label` as keyof typeof styles], textStyle];
+  const labelStyle = [
+    styles.label,
+    styles[`${variant}Label` as keyof typeof styles],
+    styles[`${size}Label` as keyof typeof styles],
+    textStyle,
+  ];
 
   return (
-    <TouchableOpacity
-      style={containerStyle}
-      onPress={onPress}
-      disabled={disabled || loading}
-      activeOpacity={0.8}
-    >
-      {loading ? (
-        <ActivityIndicator
-          color={variant === 'primary' ? Colors.textInverse : Colors.primary}
-          size="small"
-        />
-      ) : (
-        <Text style={labelStyle}>{label}</Text>
-      )}
-    </TouchableOpacity>
+    <Animated.View style={{ transform: [{ scale }], alignSelf: fullWidth ? 'stretch' : 'auto' }}>
+      <TouchableOpacity
+        style={containerStyle}
+        onPress={onPress}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        disabled={disabled || loading}
+        activeOpacity={1}
+      >
+        {loading ? (
+          <ActivityIndicator
+            color={variant === 'primary' ? Colors.textInverse : Colors.primary}
+            size="small"
+          />
+        ) : (
+          <Text style={labelStyle}>{label}</Text>
+        )}
+      </TouchableOpacity>
+    </Animated.View>
   );
 }
 

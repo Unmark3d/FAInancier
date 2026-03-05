@@ -73,6 +73,9 @@ export interface CalculationResult {
   recommendationScore: number; // 0-100
   amortizationSchedule: MonthlyRow[];
   savingsVsAverage?: number;  // EUR saved vs market average
+  monthlySavings?: number;          // Scenario C: EUR saved per month vs current loan
+  totalSavings?: number;            // Scenario C: total EUR saved over remaining period
+  currentMonthlyPayment?: number;   // Scenario C: original monthly payment being compared
 }
 
 export interface ScoreWeights {
